@@ -1,0 +1,39 @@
+import wollok.game.*
+import player.*
+
+ program BloqueGame{
+	game.title("BoloqueGame")
+	game.height(12)
+	game.width(15)
+	game.addVisual(player)
+	player.cambiateDePosicion()
+	configuracion.configurarTeclas()
+
+	game.start()
+
+
+ }
+
+ object configuracion{
+	var estaActivadoElMovete = false
+	method activarMovete(){
+		if (not estaActivadoElMovete)
+			game.onTick(
+				1500, 
+				"movete", 
+				{player.cambiateDePosicion()}
+			)
+		estaActivadoElMovete = true
+	}
+	method desactviarMovete(){
+		if (estaActivadoElMovete)
+			game.removeTickEvent("movete")
+		estaActivadoElMovete = false
+	}
+
+	method configurarTeclas(){
+		keyboard.a().onPressDo({self.activarMovete()})
+		keyboard.z().onPressDo({self.desactviarMovete()})
+	}
+}
+	
